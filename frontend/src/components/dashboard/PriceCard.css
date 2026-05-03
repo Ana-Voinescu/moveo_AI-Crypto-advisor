@@ -1,0 +1,26 @@
+.price-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.coin-symbol {
+  font-weight: 700;
+  font-size: 0.95rem;
+  width: 3.5rem;
+  color: var(--color-text);
+}
+
+.coin-price {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}

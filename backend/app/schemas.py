@@ -57,6 +57,7 @@ class DashboardResponse(BaseModel):
     news: List[NewsItem]
     ai_insight: str
     meme: MemeItem
+    votes: dict = {}  # "{content_type}:{content_id}" -> bool
 
 
 # --- Votes ---

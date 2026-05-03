@@ -1,0 +1,24 @@
+.meme-title {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.meme-image {
+  width: 100%;
+  border-radius: var(--radius);
+  object-fit: cover;
+  max-height: 280px;
+}
+
+.meme-fallback {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-raised);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  border: 1px dashed var(--color-border);
+}

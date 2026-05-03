@@ -1,0 +1,10 @@
+.insight-text {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--color-text);
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1rem;
+  margin: 0;
+  font-style: italic;
+}

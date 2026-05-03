@@ -1,0 +1,39 @@
+.onboarding-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.onboarding-card {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.onboarding-header {
+  text-align: center;
+}
+
+/* Re-use the .auth-logo class from index.css globals */
+.onboarding-header .auth-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.onboarding-header p {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}

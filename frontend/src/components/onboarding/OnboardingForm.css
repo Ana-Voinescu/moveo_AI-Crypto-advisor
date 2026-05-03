@@ -1,0 +1,97 @@
+.onboarding-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.onboarding-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.onboarding-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.section-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: -0.35rem;
+}
+
+/* Chip buttons — used for coins and content types */
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  padding: 0.4rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface-raised);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.chip-selected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+/* Investor type cards */
+
+.investor-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.investor-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface-raised);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.investor-card input[type='radio'] {
+  display: none;
+}
+
+.investor-card:hover {
+  border-color: var(--color-primary);
+}
+
+.investor-card-selected {
+  border-color: var(--color-primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.investor-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.investor-desc {
+  font-size: 0.825rem;
+  color: var(--color-text-muted);
+}
