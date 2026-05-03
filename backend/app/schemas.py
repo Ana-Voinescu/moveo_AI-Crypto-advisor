@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, field_validator
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 
 # --- Auth ---
@@ -41,10 +41,14 @@ class AuthResponse(BaseModel):
 
 # --- Onboarding ---
 
+CryptoAsset   = Literal['BTC', 'ETH', 'SOL', 'ADA', 'DOGE', 'DOT', 'AVAX', 'XRP']
+InvestorType  = Literal['hodler', 'day_trader', 'nft_collector']
+ContentType   = Literal['news', 'charts', 'social', 'fun']
+
 class OnboardingRequest(BaseModel):
-    crypto_assets: List[str]
-    investor_type: str
-    content_types: List[str]
+    crypto_assets: List[CryptoAsset]
+    investor_type: InvestorType
+    content_types: List[ContentType]
 
 
 # --- Dashboard ---
