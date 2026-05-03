@@ -4,6 +4,7 @@ API endpoint tests.
 Each test gets a fresh in-memory DB via the `client` fixture in conftest.py.
 External service calls are mocked so tests never hit real APIs.
 """
+from contextlib import contextmanager
 from unittest.mock import patch, AsyncMock
 from app.schemas import CoinPrice, NewsItem, MemeItem
 
@@ -37,14 +38,13 @@ def _onboard(client, token, assets=None, investor_type="hodler", content_types=N
     }, headers=_auth(token))
 
 
+@contextmanager
 def _mock_dashboard():
-    """Context manager that patches all four external service calls."""
-    return (
-        patch("app.routers.dashboard.coingecko.get_prices", AsyncMock(return_value=_PRICES)),
-        patch("app.routers.dashboard.cryptopanic.get_news", AsyncMock(return_value=_NEWS)),
-        patch("app.routers.dashboard.ai_service.get_insight", AsyncMock(return_value=_INSIGHT)),
-        patch("app.routers.dashboard.meme_service.get_meme", AsyncMock(return_value=_MEME)),
-    )
+    with patch("app.routers.dashboard.coingecko.get_prices", AsyncMock(return_value=_PRICES)), \
+         patch("app.routers.dashboard.cryptopanic.get_news", AsyncMock(return_value=_NEWS)), \
+         patch("app.routers.dashboard.ai_service.get_insight", AsyncMock(return_value=_INSIGHT)), \
+         patch("app.routers.dashboard.meme_service.get_meme", AsyncMock(return_value=_MEME)):
+        yield
 
 
 # ============================================================
@@ -149,10 +149,7 @@ def test_dashboard_returns_all_four_sections(client):
     token = _signup(client)
     _onboard(client, token)
 
-    with patch("app.routers.dashboard.coingecko.get_prices", AsyncMock(return_value=_PRICES)), \
-         patch("app.routers.dashboard.cryptopanic.get_news", AsyncMock(return_value=_NEWS)), \
-         patch("app.routers.dashboard.ai_service.get_insight", AsyncMock(return_value=_INSIGHT)), \
-         patch("app.routers.dashboard.meme_service.get_meme", AsyncMock(return_value=_MEME)):
+    with _mock_dashboard():
         resp = client.get("/api/dashboard", headers=_auth(token))
 
     assert resp.status_code == 200
@@ -170,10 +167,7 @@ def test_dashboard_without_token_returns_403(client):
 
 def test_dashboard_before_onboarding_returns_400(client):
     token = _signup(client)  # signed up but not onboarded
-    with patch("app.routers.dashboard.coingecko.get_prices", AsyncMock(return_value=_PRICES)), \
-         patch("app.routers.dashboard.cryptopanic.get_news", AsyncMock(return_value=_NEWS)), \
-         patch("app.routers.dashboard.ai_service.get_insight", AsyncMock(return_value=_INSIGHT)), \
-         patch("app.routers.dashboard.meme_service.get_meme", AsyncMock(return_value=_MEME)):
+    with _mock_dashboard():
         resp = client.get("/api/dashboard", headers=_auth(token))
     assert resp.status_code == 400
 
