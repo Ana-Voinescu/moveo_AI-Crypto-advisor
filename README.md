@@ -13,8 +13,8 @@ A personalized crypto dashboard that learns your investment style through a shor
 - **Onboarding** — Choose your crypto assets, investor type, and content preferences
 - **Daily Dashboard** — Four sections updated on every load:
   - 📈 Coin Prices (CoinGecko API)
-  - 📰 Market News (CryptoPanic API)
-  - 🤖 AI Insight of the Day (OpenRouter — Mistral 7B)
+  - 📰 Market News (newsdata.io API — crypto category, filtered by selected coins)
+  - 🤖 AI Insight of the Day (OpenRouter — Gemma 3 12B)
   - 😂 Crypto Meme (Reddit scraping)
 - **Voting** — Thumbs up/down on every section, stored in the database and restored on reload
 - **Fallbacks** — All external APIs have static fallback data so the dashboard never crashes
@@ -74,7 +74,7 @@ The app will be available at http://localhost:5173.
 |---|---|---|
 | `DATABASE_URL` | No | Defaults to `sqlite:///./dev.db` |
 | `JWT_SECRET_KEY` | Yes (prod) | Secret key for signing tokens — use a long random string in production |
-| `CRYPTOPANIC_API_KEY` | No | Get free key at cryptopanic.com — falls back to static data without it |
+| `NEWSDATA_API_KEY` | No | Get free key at newsdata.io — falls back to static data without it. Note: CryptoPanic was the original provider but discontinued their free tier on April 1, 2026, so newsdata.io was used as a free alternative. The `/api/1/crypto` endpoint returns crypto-specific news, filtered further by the user's selected coin symbols. |
 | `OPENROUTER_API_KEY` | No | Get free key at openrouter.ai — falls back to static insight without it |
 | `FRONTEND_URL` | No | Production frontend URL added to CORS allowed origins |
 
@@ -88,7 +88,7 @@ The app will be available at http://localhost:5173.
 
 ## Running Tests
 
-### Backend (39 tests)
+### Backend (40 tests)
 
 ```bash
 cd backend
