@@ -32,7 +32,7 @@ async def get_news(symbols: List[str]) -> List[NewsItem]:
                 url=item["link"],
                 source=item["source_name"],
             )
-            for item in data.get("results", [])[:5]
+            for item in data.get("results", [])
         ]
     except Exception:
         return _static_fallback()
