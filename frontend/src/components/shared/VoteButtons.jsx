@@ -10,8 +10,8 @@ export default function VoteButtons({ contentType, contentId, initialVote = null
     try {
       await api.submitVote(contentType, contentId, value)
       setVoted(value)
-    } catch {
-      // vote is a nice-to-have — fail silently so the dashboard stays usable
+    } catch (err) {
+      console.error('Vote failed:', err)
     }
   }
 
