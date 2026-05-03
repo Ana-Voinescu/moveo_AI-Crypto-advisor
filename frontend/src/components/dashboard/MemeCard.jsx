@@ -10,19 +10,21 @@ export default function MemeCard({ meme, votes }) {
       <h2 className="card-title">😂 Crypto Meme</h2>
       <p className="meme-title">{meme.title}</p>
 
-      {imgError ? (
-        <div className="meme-fallback">Image could not be loaded</div>
-      ) : (
-        <img
-          src={meme.url}
-          alt={meme.title}
-          className="meme-image"
-          onError={() => setImgError(true)}
-        />
-      )}
+      <div className="meme-media">
+        {imgError ? (
+          <div className="meme-fallback">Image could not be loaded</div>
+        ) : (
+          <img
+            src={meme.url}
+            alt={meme.title}
+            className="meme-image"
+            onError={() => setImgError(true)}
+          />
+        )}
 
-      <VoteButtons contentType="meme" contentId={meme.id}
-        initialVote={votes?.[`meme:${meme.id}`] ?? null} />
+        <VoteButtons contentType="meme" contentId={meme.id}
+          initialVote={votes?.[`meme:${meme.id}`] ?? null} />
+      </div>
     </div>
   )
 }

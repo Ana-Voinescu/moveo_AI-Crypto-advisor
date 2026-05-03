@@ -12,6 +12,8 @@ function formatChange(change) {
 }
 
 export default function PriceCard({ prices, votes }) {
+  const today = new Date().toISOString().slice(0, 10)
+  const contentId = `daily-prices:${today}`
   return (
     <div className="card dashboard-card">
       <h2 className="card-title">📈 Coin Prices</h2>
@@ -30,8 +32,8 @@ export default function PriceCard({ prices, votes }) {
         ))}
       </ul>
 
-      <VoteButtons contentType="price" contentId="daily-prices"
-        initialVote={votes?.['price:daily-prices'] ?? null} />
+      <VoteButtons contentType="price" contentId={contentId}
+        initialVote={votes?.[`price:${contentId}`] ?? null} />
     </div>
   )
 }
