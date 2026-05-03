@@ -74,9 +74,11 @@ The app will be available at http://localhost:5173.
 |---|---|---|
 | `DATABASE_URL` | No | Defaults to `sqlite:///./dev.db` |
 | `JWT_SECRET_KEY` | Yes (prod) | Secret key for signing tokens — use a long random string in production |
-| `NEWSDATA_API_KEY` | No | Get free key at newsdata.io — falls back to static data without it. Note: CryptoPanic was the original provider but discontinued their free tier on April 1, 2026, so newsdata.io was used as a free alternative. The `/api/1/crypto` endpoint returns crypto-specific news, filtered further by the user's selected coin symbols. |
+| `NEWSDATA_API_KEY` | No | Get free key at newsdata.io — falls back to static data without it |
 | `OPENROUTER_API_KEY` | No | Get free key at openrouter.ai — falls back to static insight without it |
 | `FRONTEND_URL` | No | Production frontend URL added to CORS allowed origins |
+
+> **Note on news provider:** CryptoPanic was the original news source, but as of April 1, 2026 they discontinued their free tier. newsdata.io was chosen as a free alternative — its `/api/1/crypto` endpoint returns crypto-specific news only, and results are filtered further by the user's selected coin symbols (e.g. BTC, ETH).
 
 ### Frontend (`frontend/.env`)
 
