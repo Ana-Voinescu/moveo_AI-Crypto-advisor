@@ -4,6 +4,10 @@ from app import config
 
 DATABASE_URL = config.DATABASE_URL
 
+# Render PostgreSQL URLs start with postgres:// — SQLAlchemy requires postgresql://
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 # SQLite requires check_same_thread=False when used in a multi-threaded server
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 
