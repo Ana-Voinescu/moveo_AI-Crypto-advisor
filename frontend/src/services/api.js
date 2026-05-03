@@ -11,6 +11,12 @@ function getAuthHeaders() {
 async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, options)
   if (!res.ok) {
+    if (res.status === 401) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      window.location.href = '/login'
+      return
+    }
     const body = await res.json().catch(() => ({}))
     throw new Error(body.detail || 'Something went wrong')
   }
