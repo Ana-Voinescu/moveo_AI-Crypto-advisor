@@ -18,7 +18,7 @@ _MEME = MemeItem(id="m1", title="Moon soon", url="http://i.redd.it/meme.jpg")
 
 # --- Helpers ---
 
-def _signup(client, email="user@test.com", password="testpass123"):
+def _signup(client, email="user@test.com", password="Testpass123"):
     resp = client.post("/api/auth/signup", json={
         "name": "Test User", "email": email, "password": password,
     })
@@ -53,7 +53,7 @@ def _mock_dashboard():
 
 def test_signup_returns_token_and_user(client):
     resp = client.post("/api/auth/signup", json={
-        "name": "Anna", "email": "anna@test.com", "password": "secret123",
+        "name": "Anna", "email": "anna@test.com", "password": "Secret123",
     })
     assert resp.status_code == 201
     data = resp.json()
@@ -64,11 +64,19 @@ def test_signup_returns_token_and_user(client):
 
 
 def test_signup_duplicate_email_returns_400(client):
-    payload = {"name": "Anna", "email": "anna@test.com", "password": "secret123"}
+    payload = {"name": "Anna", "email": "anna@test.com", "password": "Secret123"}
     client.post("/api/auth/signup", json=payload)
     resp = client.post("/api/auth/signup", json=payload)
     assert resp.status_code == 400
     assert "already registered" in resp.json()["detail"]
+
+
+def test_signup_weak_password_returns_422(client):
+    for password in ["short1A", "alllowercase1", "ALLUPPERCASE1", "NoNumbers!"]:
+        resp = client.post("/api/auth/signup", json={
+            "name": "Anna", "email": "anna@test.com", "password": password,
+        })
+        assert resp.status_code == 422, f"Expected 422 for password: {password}"
 
 
 # ============================================================
@@ -78,7 +86,7 @@ def test_signup_duplicate_email_returns_400(client):
 def test_login_returns_token(client):
     _signup(client)
     resp = client.post("/api/auth/login", json={
-        "email": "user@test.com", "password": "testpass123",
+        "email": "user@test.com", "password": "Testpass123",
     })
     assert resp.status_code == 200
     assert "token" in resp.json()
