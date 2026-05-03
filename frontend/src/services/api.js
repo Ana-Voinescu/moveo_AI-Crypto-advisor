@@ -11,7 +11,9 @@ function getAuthHeaders() {
 async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, options)
   if (!res.ok) {
-    if (res.status === 401) {
+    if (res.status === 401 && localStorage.getItem('token')) {
+      // Only redirect when a token exists — this means the session expired.
+      // If there's no token we're on the login page and the 401 is just wrong credentials.
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       window.location.href = '/login'
