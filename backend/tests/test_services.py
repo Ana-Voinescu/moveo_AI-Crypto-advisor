@@ -81,14 +81,14 @@ async def test_coingecko_returns_empty_for_unknown_symbols():
 # ============================================================
 
 async def test_cryptopanic_uses_fallback_when_no_api_key(monkeypatch):
-    monkeypatch.setattr(config, "CRYPTOPANIC_API_KEY", "")
+    monkeypatch.setattr(config, "NEWSDATA_API_KEY", "")
     result = await cryptopanic.get_news(["BTC"])
     assert len(result) > 0
     assert all(isinstance(n, NewsItem) for n in result)
 
 
 async def test_cryptopanic_returns_fallback_on_network_error(monkeypatch):
-    monkeypatch.setattr(config, "CRYPTOPANIC_API_KEY", "fake-key")
+    monkeypatch.setattr(config, "NEWSDATA_API_KEY", "fake-key")
     with patch("app.services.cryptopanic.httpx.AsyncClient",
                return_value=_MockHttpClient(raise_exc=Exception("connection refused"))):
         result = await cryptopanic.get_news(["BTC"])
@@ -98,11 +98,12 @@ async def test_cryptopanic_returns_fallback_on_network_error(monkeypatch):
 
 
 async def test_cryptopanic_parses_live_response(monkeypatch):
-    monkeypatch.setattr(config, "CRYPTOPANIC_API_KEY", "fake-key")
+    monkeypatch.setattr(config, "NEWSDATA_API_KEY", "fake-key")
     fake_data = {
+        "status": "success",
         "results": [
-            {"id": 1, "title": "BTC hits ATH", "url": "http://news.com/btc",
-             "source": {"title": "CoinDesk"}},
+            {"article_id": "abc123", "title": "BTC hits ATH",
+             "link": "http://news.com/btc", "source_name": "CoinDesk"},
         ]
     }
     with patch("app.services.cryptopanic.httpx.AsyncClient",
@@ -112,7 +113,7 @@ async def test_cryptopanic_parses_live_response(monkeypatch):
     assert len(result) == 1
     assert result[0].title == "BTC hits ATH"
     assert result[0].source == "CoinDesk"
-    assert result[0].id == "1"
+    assert result[0].id == "abc123"
 
 
 # ============================================================

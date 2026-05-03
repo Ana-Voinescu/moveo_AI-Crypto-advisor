@@ -9,17 +9,17 @@ _FALLBACK_PATH = Path(__file__).parent.parent / "static" / "fallback_news.json"
 
 
 async def get_news(symbols: List[str]) -> List[NewsItem]:
-    if not config.CRYPTOPANIC_API_KEY:
+    if not config.NEWSDATA_API_KEY:
         return _static_fallback()
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.get(
-                "https://cryptopanic.com/api/v1/posts/",
+                "https://newsdata.io/api/1/crypto",
                 params={
-                    "auth_token": config.CRYPTOPANIC_API_KEY,
-                    "currencies": ",".join(symbols),
-                    "kind": "news",
+                    "apikey": config.NEWSDATA_API_KEY,
+                    "q": " OR ".join(symbols),
+                    "language": "en",
                 },
             )
             response.raise_for_status()
@@ -27,10 +27,10 @@ async def get_news(symbols: List[str]) -> List[NewsItem]:
 
         return [
             NewsItem(
-                id=str(item["id"]),
+                id=item["article_id"],
                 title=item["title"],
-                url=item["url"],
-                source=item["source"]["title"],
+                url=item["link"],
+                source=item["source_name"],
             )
             for item in data.get("results", [])[:5]
         ]
