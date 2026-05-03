@@ -20,7 +20,10 @@ async function request(path, options = {}) {
       return
     }
     const body = await res.json().catch(() => ({}))
-    throw new Error(body.detail || 'Something went wrong')
+    const message = Array.isArray(body.detail)
+      ? body.detail.map(e => e.msg.replace(/^Value error, /, '')).join('. ')
+      : body.detail || 'Something went wrong'
+    throw new Error(message)
   }
   return res.json()
 }

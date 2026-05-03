@@ -65,8 +65,9 @@ export default function SignupForm() {
           onChange={e => setPassword(e.target.value)}
           placeholder="••••••••"
           required
-          minLength={6}
+          minLength={8}
         />
+        <p className="field-hint">Min 8 characters, with uppercase, lowercase, and a number</p>
       </div>
 
       {error && <p className="error-message">{error}</p>}

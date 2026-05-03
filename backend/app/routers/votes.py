@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.schemas import VoteRequest
@@ -23,7 +23,7 @@ def submit_vote(
 
     if existing:
         existing.vote = data.vote
-        existing.updated_at = datetime.utcnow()
+        existing.updated_at = datetime.now(timezone.utc)
     else:
         db.add(ContentVote(
             user_id=current_user.id,

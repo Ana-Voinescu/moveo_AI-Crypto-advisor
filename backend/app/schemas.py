@@ -80,6 +80,6 @@ class DashboardResponse(BaseModel):
 # --- Votes ---
 
 class VoteRequest(BaseModel):
-    content_type: str
+    content_type: Literal['price', 'news', 'ai_insight', 'meme']
     content_id: str
     vote: bool
