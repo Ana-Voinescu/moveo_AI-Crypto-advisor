@@ -142,3 +142,94 @@ def test_duplicate_vote_raises(db):
     db.add(ContentVote(user_id=user.id, content_type="meme", content_id="meme-1", vote=False))
     with pytest.raises(IntegrityError):
         db.commit()
+
+
+# --- Extended DB interaction tests ---
+
+def test_update_preferences_persists_changes(db):
+    """Updating existing preferences overwrites old values correctly."""
+    user = make_user()
+    db.add(user)
+    db.commit()
+
+    prefs = UserPreferences(
+        user_id=user.id, crypto_assets=["BTC"],
+        investor_type="hodler", content_types=["news"],
+    )
+    db.add(prefs)
+    db.commit()
+
+    prefs.crypto_assets = ["ETH", "SOL"]
+    prefs.investor_type = "day_trader"
+    db.commit()
+    db.refresh(prefs)
+
+    assert prefs.crypto_assets == ["ETH", "SOL"]
+    assert prefs.investor_type == "day_trader"
+
+
+def test_is_onboarded_flag_starts_false_and_can_be_set(db):
+    """is_onboarded defaults to False and can be flipped to True."""
+    user = make_user()
+    db.add(user)
+    db.commit()
+
+    assert user.is_onboarded is False
+
+    user.is_onboarded = True
+    db.commit()
+    db.refresh(user)
+
+    assert user.is_onboarded is True
+
+
+def test_vote_value_changes_after_update(db):
+    """Updating a vote's boolean value is reflected after commit and refresh."""
+    user = make_user()
+    db.add(user)
+    db.commit()
+
+    vote = ContentVote(user_id=user.id, content_type="news", content_id="a1", vote=True)
+    db.add(vote)
+    db.commit()
+
+    vote.vote = False
+    db.commit()
+    db.refresh(vote)
+
+    assert vote.vote is False
+
+
+def test_user_can_vote_on_multiple_content_types(db):
+    """One user can have one vote per content type without constraint violations."""
+    user = make_user()
+    db.add(user)
+    db.commit()
+
+    for content_type in ["news", "price", "ai_insight", "meme"]:
+        db.add(ContentVote(
+            user_id=user.id, content_type=content_type, content_id="item-1", vote=True,
+        ))
+    db.commit()
+
+    votes = db.query(ContentVote).filter_by(user_id=user.id).all()
+    assert len(votes) == 4
+    assert {v.content_type for v in votes} == {"news", "price", "ai_insight", "meme"}
+
+
+def test_preferences_linked_to_correct_user(db):
+    """user_id FK correctly links preferences back to the user."""
+    user = make_user()
+    db.add(user)
+    db.commit()
+
+    prefs = UserPreferences(
+        user_id=user.id, crypto_assets=["BTC"],
+        investor_type="hodler", content_types=["fun"],
+    )
+    db.add(prefs)
+    db.commit()
+
+    fetched = db.query(UserPreferences).filter_by(user_id=user.id).first()
+    assert fetched is not None
+    assert fetched.user.email == "alice@example.com"
