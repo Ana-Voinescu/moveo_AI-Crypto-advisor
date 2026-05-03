@@ -1,4 +1,5 @@
 import httpx
+from datetime import date
 from app.models.preferences import UserPreferences
 from app import config
 
@@ -24,10 +25,12 @@ async def get_insight(preferences: UserPreferences) -> str:
 
     coins = ", ".join(preferences.crypto_assets[:3])
     investor_label = preferences.investor_type.replace("_", " ").title()
+    today = date.today().strftime("%B %d, %Y")
     prompt = (
-        f"You are a concise crypto market advisor. "
+        f"Today is {today}. You are a concise crypto market advisor. "
         f"The user is a {investor_label} interested in {coins}. "
-        f"Give a 2-3 sentence daily insight. Be specific and practical. No disclaimers."
+        f"Reply with ONLY a 2-3 sentence daily insight — no intro, no date, no sign-off. "
+        f"Focus on mindset and strategy, not specific price predictions. Be practical."
     )
 
     try:
@@ -39,7 +42,7 @@ async def get_insight(preferences: UserPreferences) -> str:
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model": "mistralai/mistral-7b-instruct:free",
+                    "model": "google/gemma-3-12b-it:free",
                     "messages": [{"role": "user", "content": prompt}],
                     "max_tokens": 150,
                 },
