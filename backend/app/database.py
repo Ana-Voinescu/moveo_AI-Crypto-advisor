@@ -1,11 +1,8 @@
-import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from dotenv import load_dotenv
+from app import config
 
-load_dotenv()
-
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./dev.db")
+DATABASE_URL = config.DATABASE_URL
 
 # SQLite requires check_same_thread=False when used in a multi-threaded server
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
