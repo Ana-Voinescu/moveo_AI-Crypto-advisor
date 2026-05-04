@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import * as api from '../../services/api'
@@ -8,10 +8,22 @@ export default function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [slowWarning, setSlowWarning] = useState(false)
   const [error, setError] = useState(null)
+  const timerRef = useRef(null)
 
   const { loginUser } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (loading) {
+      timerRef.current = setTimeout(() => setSlowWarning(true), 4000)
+    } else {
+      clearTimeout(timerRef.current)
+      setSlowWarning(false)
+    }
+    return () => clearTimeout(timerRef.current)
+  }, [loading])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -56,6 +68,11 @@ export default function LoginForm() {
       </div>
 
       {error && <p className="error-message">{error}</p>}
+      {slowWarning && (
+        <p className="slow-warning">
+          The server is waking up from sleep — this can take up to a minute on first load. Hang tight…
+        </p>
+      )}
 
       <button type="submit" className="btn btn-primary" disabled={loading}>
         {loading ? 'Logging in…' : 'Log in'}

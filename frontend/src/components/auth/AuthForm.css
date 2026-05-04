@@ -9,3 +9,13 @@
   color: var(--color-text-muted);
   margin: 0.25rem 0 0;
 }
+
+.slow-warning {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.85rem;
+  margin: 0;
+}
