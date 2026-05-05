@@ -100,7 +100,7 @@ source venv/bin/activate
 pytest
 ```
 
-### Frontend (25 tests)
+### Frontend (26 tests)
 
 ```bash
 cd frontend
