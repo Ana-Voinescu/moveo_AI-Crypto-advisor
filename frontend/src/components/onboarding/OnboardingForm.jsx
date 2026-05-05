@@ -48,7 +48,7 @@ export default function OnboardingForm() {
     setLoading(true)
     try {
       await api.saveOnboarding(selectedCoins, investorType, selectedContent)
-      navigate('/dashboard')
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       setError(err.message)
     } finally {
