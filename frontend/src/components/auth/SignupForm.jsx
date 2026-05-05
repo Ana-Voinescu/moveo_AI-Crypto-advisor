@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import * as api from '../../services/api'
+import PageLoader from '../shared/PageLoader'
 import './AuthForm.css'
 
 export default function SignupForm() {
@@ -48,7 +49,9 @@ export default function SignupForm() {
   }
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
+    <>
+      {loading && <PageLoader />}
+      <form className="auth-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="name">Name</label>
         <input
@@ -120,5 +123,6 @@ export default function SignupForm() {
         {loading ? 'Creating account…' : 'Create account'}
       </button>
     </form>
+    </>
   )
 }

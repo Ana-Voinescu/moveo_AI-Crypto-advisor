@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import * as api from '../../services/api'
+import PageLoader from '../shared/PageLoader'
 import './AuthForm.css'
 
 export default function LoginForm() {
@@ -42,7 +43,9 @@ export default function LoginForm() {
   }
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
+    <>
+      {loading && <PageLoader />}
+      <form className="auth-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input
@@ -78,5 +81,6 @@ export default function LoginForm() {
         {loading ? 'Logging in…' : 'Log in'}
       </button>
     </form>
+    </>
   )
 }

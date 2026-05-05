@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as api from '../../services/api'
+import PageLoader from '../shared/PageLoader'
 import './OnboardingForm.css'
 
 const COINS = ['BTC', 'ETH', 'SOL', 'ADA', 'DOGE', 'DOT', 'AVAX', 'XRP']
@@ -57,7 +58,9 @@ export default function OnboardingForm() {
   }
 
   return (
-    <form className="onboarding-form" onSubmit={handleSubmit}>
+    <>
+      {loading && <PageLoader />}
+      <form className="onboarding-form" onSubmit={handleSubmit}>
 
       {/* Section 1: Coins */}
       <div className="onboarding-section">
@@ -125,5 +128,6 @@ export default function OnboardingForm() {
       </button>
 
     </form>
+    </>
   )
 }
