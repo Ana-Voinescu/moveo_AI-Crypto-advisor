@@ -5,6 +5,8 @@ A personalized crypto dashboard that learns your investment style through a shor
 **Live app:** https://moveo-ai-crypto-advisor-five.vercel.app  
 **API:** https://moveo-ai-crypto-advisor-iyl5.onrender.com
 
+> **Note:** The backend is hosted on Render's free tier, which shuts the server down after 15 minutes of inactivity. The first request after an idle period can take 1–2 minutes while the server wakes up. The login page will display a warning message if this happens — just wait and the request will go through.
+
 ---
 
 ## Features
