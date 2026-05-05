@@ -18,11 +18,15 @@ SYMBOL_TO_ID = {
 }
 
 _FALLBACK = {
-    "BTC": CoinPrice(symbol="BTC", price_usd=62000.0, change_24h=1.2),
-    "ETH": CoinPrice(symbol="ETH", price_usd=3200.0, change_24h=-0.5),
-    "SOL": CoinPrice(symbol="SOL", price_usd=145.0, change_24h=2.1),
-    "ADA": CoinPrice(symbol="ADA", price_usd=0.45, change_24h=0.8),
-    "DOGE": CoinPrice(symbol="DOGE", price_usd=0.12, change_24h=3.4),
+    "BTC":  CoinPrice(symbol="BTC",  price_usd=62000.0, change_24h=1.2),
+    "ETH":  CoinPrice(symbol="ETH",  price_usd=3200.0,  change_24h=-0.5),
+    "SOL":  CoinPrice(symbol="SOL",  price_usd=145.0,   change_24h=2.1),
+    "ADA":  CoinPrice(symbol="ADA",  price_usd=0.45,    change_24h=0.8),
+    "DOGE": CoinPrice(symbol="DOGE", price_usd=0.12,    change_24h=3.4),
+    "DOT":  CoinPrice(symbol="DOT",  price_usd=7.50,    change_24h=0.5),
+    "AVAX": CoinPrice(symbol="AVAX", price_usd=35.00,   change_24h=1.0),
+    "XRP":  CoinPrice(symbol="XRP",  price_usd=0.52,    change_24h=0.3),
+    "LTC":  CoinPrice(symbol="LTC",  price_usd=85.00,   change_24h=-0.2),
 }
 
 

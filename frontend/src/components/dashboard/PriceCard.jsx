@@ -18,19 +18,23 @@ export default function PriceCard({ prices, votes }) {
     <div className="card dashboard-card">
       <h2 className="card-title">📈 Coin Prices</h2>
 
-      <ul className="price-list">
-        {prices.map(coin => (
-          <li key={coin.symbol} className="price-row">
-            <span className="coin-symbol">{coin.symbol}</span>
-            <span className="coin-price">{formatPrice(coin.price_usd)}</span>
-            {coin.change_24h != null && (
-              <span className={coin.change_24h >= 0 ? 'positive' : 'negative'}>
-                {formatChange(coin.change_24h)}
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
+      {prices.length === 0 ? (
+        <p className="empty-state">No price data available right now.</p>
+      ) : (
+        <ul className="price-list">
+          {prices.map(coin => (
+            <li key={coin.symbol} className="price-row">
+              <span className="coin-symbol">{coin.symbol}</span>
+              <span className="coin-price">{formatPrice(coin.price_usd)}</span>
+              {coin.change_24h != null && (
+                <span className={coin.change_24h >= 0 ? 'positive' : 'negative'}>
+                  {formatChange(coin.change_24h)}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <VoteButtons contentType="price" contentId={contentId}
         initialVote={votes?.[`price:${contentId}`] ?? null} />

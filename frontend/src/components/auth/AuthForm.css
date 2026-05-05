@@ -19,3 +19,26 @@
   padding: 0.6rem 0.85rem;
   margin: 0;
 }
+
+.input-with-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-toggle input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.eye-toggle {
+  position: absolute;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  line-height: 1;
+  color: var(--color-text-muted);
+}
