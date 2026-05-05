@@ -35,6 +35,7 @@ describe('SignupForm', () => {
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Carol' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'carol@example.com' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } })
+    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'password123' } })
     fireEvent.click(screen.getByRole('button', { name: /create account/i }))
 
     await waitFor(() => expect(screen.getByText('Onboarding page')).toBeInTheDocument())
@@ -48,6 +49,7 @@ describe('SignupForm', () => {
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Dave' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'existing@example.com' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } })
+    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'password123' } })
     fireEvent.click(screen.getByRole('button', { name: /create account/i }))
 
     await waitFor(() => expect(screen.getByText('Email already registered')).toBeInTheDocument())
@@ -60,8 +62,21 @@ describe('SignupForm', () => {
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Eve' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'eve@example.com' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } })
+    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'password123' } })
     fireEvent.click(screen.getByRole('button', { name: /create account/i }))
 
     expect(screen.getByRole('button', { name: /creating account/i })).toBeDisabled()
+  })
+
+  test('shows error when passwords do not match', () => {
+    renderSignup()
+    fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Frank' } })
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'frank@example.com' } })
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } })
+    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'different' } })
+    fireEvent.click(screen.getByRole('button', { name: /create account/i }))
+
+    expect(screen.getByText('Passwords do not match.')).toBeInTheDocument()
+    expect(api.signup).not.toHaveBeenCalled()
   })
 })
